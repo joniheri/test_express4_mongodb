@@ -87,7 +87,12 @@ const addUser = async (req, res) => {
     }
 
     // {Process insert data to db
-    const insertData = await UserModel.create(dataInput);
+    const insertData = await UserModel.create({
+      email: dataInput.email,
+      username: dataInput.username,
+      password: await bcrypt.hash(dataInput.password, 10),
+      fullname: dataInput.fullname,
+    });
     if (!insertData) {
       return res.status(400).send({
         status: 'fail',
