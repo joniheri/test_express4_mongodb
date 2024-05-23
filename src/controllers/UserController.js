@@ -15,8 +15,43 @@ const getUser = async (_, res) => {
 
     return res.send({
       status: 'fuccess',
-      message: `Success`,
+      message: `Get users Success`,
       data: dataUsers,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      status: 'error catch',
+      message: error.message,
+    });
+  }
+};
+
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check if the ID is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({
+        status: 'fail',
+        message: 'Invalid ID format',
+      });
+    }
+
+    // Get Users
+    const dataUser = await UserModel.findById(id);
+    if (!dataUser) {
+      return res.status(401).send({
+        status: 'fail',
+        message: `Get user Fail`,
+      });
+    }
+
+    return res.send({
+      status: 'fuccess',
+      message: `Get user by ID Success`,
+      data: dataUser,
     });
   } catch (error) {
     console.log(error);
@@ -172,6 +207,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   getUser,
+  getUserById,
   addUser,
   updateUser,
   deleteUser,
