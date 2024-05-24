@@ -1,4 +1,4 @@
-const template = async (req, res) => {
+exports.template = async (req, res) => {
   try {
     return res.send({
       status: 'euccess',

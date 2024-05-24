@@ -4,6 +4,12 @@ const router = express.Router();
 // Import seeder
 const { userSeed } = require('../seeders/UserSeeder');
 
+// Import middleware
+const {
+  middleware,
+  middlewareLevel,
+} = require('../middlewares/AuthMiddleware');
+
 // Import controllers
 const {
   getUser,
@@ -12,7 +18,7 @@ const {
   updateUser,
   deleteUser,
 } = require('../controllers/UserController');
-const { login } = require('../controllers/AuthController');
+const { login, checkToken } = require('../controllers/AuthController');
 
 // User Seeder Router
 router.post('/user-seed', userSeed);
@@ -26,5 +32,6 @@ router.delete('/user/:id', deleteUser);
 
 // Auth Router
 router.post('/login', login);
+router.post('/check-token', middleware, checkToken);
 
 module.exports = router;
